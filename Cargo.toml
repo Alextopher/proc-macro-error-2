@@ -12,16 +12,13 @@ keywords = ["proc-macro", "error", "errors"]
 categories = ["development-tools::procedural-macro-helpers"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
+build = "build.rs"
 
 [dependencies]
 quote = "1"
 proc-macro2 = "1"
 proc-macro-error-attr2 = { path = "./proc-macro-error-attr", version = "=2.0.0" }
-
-[dependencies.syn]
-version = "2"
-optional = true
-default-features = false
+syn = { version = "2", optional = true, default-features = false }
 
 [dev-dependencies]
 test-crate = { path = "./test-crate" }
@@ -32,9 +29,13 @@ trybuild = { version = "1.0.99", features = ["diff"] }
 default = ["syn-error"]
 syn-error = ["dep:syn"]
 nightly = []
+detect-nightly = []
 
 [lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(run_ui_tests)'] }
+unexpected_cfgs = { level = "warn", check-cfg = [
+    'cfg(run_ui_tests)',
+    'cfg(detected_nightly)',
+] }
 
 [lints.clippy]
 pedantic = { level = "warn", priority = -1 }
